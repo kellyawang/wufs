@@ -1,0 +1,43 @@
+0000000  nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+             0000    0000    0000    0000    0000    0000    0000    0000
+*
+0000400   ef  so soh nul dc4 nul enq nul  sp nul soh nul soh nul nul   $
+             0eef    0001    0014    0005    0020    0001    0001    2400
+0000410  nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+             0000    0000    0000    0000    0000    0000    0000    0000
+*
+0000800  bel nul nul nul  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff
+             0007    0000    ffff    ffff    ffff    ffff    ffff    ffff
+0000810   ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff
+             ffff    ffff    ffff    ffff    ffff    ffff    ffff    ffff
+*
+0000c00   ff  ff  f0  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff
+             ffff    fff0    ffff    ffff    ffff    ffff    ffff    ffff
+0000c10   ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff  ff
+             ffff    ffff    ffff    ffff    ffff    ffff    ffff    ffff
+*
+0001000   ed   A stx nul   <   (   <   (  be  ab  9d   M   @ nul  nl nul
+             41ed    0002    283c    283c    abbe    4d9d    0040    000a
+0001010  nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+             0000    0000    0000    0000    0000    0000    0000    0000
+0001020   a4  81 soh nul   <   (   <   (  be  ab  9d   M nul   $ enq nul
+             81a4    0001    283c    283c    abbe    4d9d    2400    0005
+0001030  ack nul bel nul  bs nul  ht nul  vt nul  ff nul  cr nul  so nul
+             0006    0007    0008    0009    000b    000c    000d    000e
+0001040   a4  81 soh nul   <   (   <   (  be  ab  9d   M nul eot  si nul
+             81a4    0001    283c    283c    abbe    4d9d    0400    000f
+0001050  nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+             0000    0000    0000    0000    0000    0000    0000    0000
+*
+0002800  soh nul   . nul nul nul nul nul nul nul nul nul nul nul nul nul
+             0001    002e    0000    0000    0000    0000    0000    0000
+0002810  soh nul   .   . nul nul nul nul nul nul nul nul nul nul nul nul
+             0001    2e2e    0000    0000    0000    0000    0000    0000
+0002820  stx nul   .   b   a   d   -   0 nul nul nul nul nul nul nul nul
+             0002    622e    6461    302d    0000    0000    0000    0000
+0002830  etx nul   .   b   a   d   -   1 nul nul nul nul nul nul nul nul
+             0003    622e    6461    312d    0000    0000    0000    0000
+0002840  nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+             0000    0000    0000    0000    0000    0000    0000    0000
+*
+0005000
