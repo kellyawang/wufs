@@ -60,7 +60,21 @@ int getBit(__u8 *field, int i)
  */
 int findNextSet(__u8 *f, int i, int n)
 {
-  return 666;
+  int j = 0;
+  if(i > 0){
+    j = i;
+  }
+
+  n += j;
+
+  while(j < n){
+    if(getBit(f, j) == 1)return j;
+    j++;
+    
+  }
+  
+
+  return -1;
 }
 
 /*
@@ -69,7 +83,21 @@ int findNextSet(__u8 *f, int i, int n)
  */
 int findNextClear(__u8 *f, int i, int n)
 {
-  return 13;
+  int j = 0;
+  if(i > 0){
+    j = i;
+  }
+
+  n += j;
+
+  while(j < n){
+    if(getBit(f, j) == 0)return j;
+    j++;
+    
+  }
+  
+
+  return -1;
 }
 
 
