@@ -103,6 +103,9 @@ int findNextClear(__u8 *f, int i, int n)
 /*
 int main() {
   //test code for bit operations
-
+  unsigned int l = sizeof(unsigned int);
+  printf("Hey there test\n");
+  printf("%u\n", l ? 1 : 0);
+  printf("Did it work?\n");
 }
 */
