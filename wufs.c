@@ -29,6 +29,9 @@ int fullChunks(int size, int chunkSize)
  */
 void setBit(__u8 *f, int i)
 {
+  j = i/8; //locate the byte in f which bit i would be found
+  f[j] = f[j]|(1 << (i%8)); //bitwise OR to set that bit to 1
+
 }
 
 /*
@@ -36,6 +39,8 @@ void setBit(__u8 *f, int i)
  */
 void clearBit(__u8 *f, int i)
 {
+  j = i/8;
+  f[j] = f[j]& ~(1 << (i%8)); //use bitwise AND and clear the bit by shifting a 1 over and inverting all the bits
 }
 
 /*
@@ -43,7 +48,10 @@ void clearBit(__u8 *f, int i)
  */
 int getBit(__u8 *field, int i)
 {
-  return 42;
+  j = i/8;
+  return (f[j] >> (i%8)) & 1;
+  //  return 42;
+  
 }
 
 /*
@@ -62,4 +70,10 @@ int findNextSet(__u8 *f, int i, int n)
 int findNextClear(__u8 *f, int i, int n)
 {
   return 13;
+}
+
+
+int main() {
+  //test code for bit operations
+
 }
