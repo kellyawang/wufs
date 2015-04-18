@@ -479,6 +479,14 @@ void buildInodes(void)
 	  bbino->in_block[n] = (__u16)calloc(WUFS_BLOCKSIZE,1);
 	  __u16 *redirect = bbino->in_block[n];
 	  redirect[n-8] = bblock;
+	  
+	  //You need a way to keep track of the error file redirection block
+	  if((rootDir + 1) = allocBlock()){
+	    fprintf(stderr,"Internal error: backBlock Inode redirection block is not right after the rootDirectory. All Hell breaks loose.\n");
+	    exit(1);
+	  }
+
+
 	  n++;
 	}else{// Once the redirection pointer is set, simple save new blocks to that new block address.
 	  __u16 *redirect = bbino->in_block[n];
@@ -611,7 +619,7 @@ void writeFS(void)
   ///////////////////////////////////////////////////////
   /* write bad blocks file */
   //int rootDirLBA = Inode[0].in_block[0];
-  //writeBlocks(Disk, rootDirLBA, , 1);
+  //writeBlocks(Disk, rootDirLBA + 1, ????, 1);
   //////////////?? ChangesDONEHERE
   /* free at last, free at last */
   if (Verbose) {
