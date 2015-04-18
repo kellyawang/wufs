@@ -229,8 +229,13 @@ void buildSuperBlock(void)
     exit(1);
   }
 
+
   /* compute the maximum file size (this file system...is a dog) */
-  SB->sb_max_fsize = WUFS_INODE_BPTRS * WUFS_BLOCKSIZE;
+  /*
+    Set this to 520 * block size because now Inodes have 520 pointeres to blocks. where as before they had 9. Now this would be better if we changed 520 from an integer to a constant value we intiate somewhere else.
+   */
+  SB->sb_max_fsize = 520*WUFS_BLOCKSIZE;//WUFS_INODE_BPTRS * WUFS_BLOCKSIZE;//520 * Blocksize??
+
 
   /* set the state appropriately */
   SB->sb_state = WUFS_VALID_FS;
@@ -425,7 +430,7 @@ void buildInodes(void)
   int fileNumber = 0;
   int bblock = SB->sb_first_block; /* first possible bad block */
     
-  while (bbc) {
+  if(bbc) {
     /* ... add a ".bad-0", ".bad-1", etc. */
     char fileName[WUFS_NAMELEN+1];
     sprintf(fileName,".bad-%x",fileNumber);
@@ -447,8 +452,15 @@ void buildInodes(void)
     struct wufs_inode *bbino = &Inode[bbinonum-1];
     int n = 0;
 
+    /*
+      If we have more than 520 bad blocks just kick out, not worth it. Run!
+     */
+    if(bbc >=520){
+      fprintf(stderr,"Internal error: Too many bad blocks.\n");
+      exit(1);
+    }
     /* place several bad blocks into this file */
-    while (bbc && (n < WUFS_INODE_BPTRS)) {
+    while (bbc){  // && (n < )){//WUFS_INODE_BPTRS)) {
       bblock = findNextSet(BMap,bblock,SB->sb_blocks);
       /* sanity check: shouldn't run out of bad blocks before bbc hits zero */
       if (bblock == -1) {
@@ -460,7 +472,29 @@ void buildInodes(void)
 	if (Verbose) {
 	  fprintf(stderr," %d",bblock); fflush(stderr);
 	}
-	bbino->in_block[n++] = bblock;
+	if(n < (WUFS_INODE_BPTRS-1)){
+	  bbino->in_block[n++] = bblock;
+	  
+	}else if(n == (WUFS_INODE_BPTRS-1)){ // If there are nine or more BBC, Then create single redirection pointer.
+	  bbino->in_block[n] = (__u16)calloc(WUFS_BLOCKSIZE,1);
+	  __u16 *redirect = bbino->in_block[n];
+	  redirect[n-8] = bblock;
+	  
+	  //You need a way to keep track of the error file redirection block
+	  if((rootDir + 1) == allocBlock()){
+	    fprintf(stderr,"Internal error: backBlock Inode redirection block is not right after the rootDirectory. All Hell breaks loose.\n");
+	    exit(1);
+	  }
+
+
+	  n++;
+	}else{// Once the redirection pointer is set, simple save new blocks to that new block address.
+	  __u16 *redirect = bbino->in_block[n];
+	  redirect[n-8] = bblock;
+	  
+	  //bbino->in_block[(WUFS_INODE_BPTRS-1)][n-8] = bblock;
+	  n++;	  
+	}
 	bbino->in_size += WUFS_BLOCKSIZE;
 	/* one more bad block, taken care of */
 	bbc--;
@@ -582,6 +616,11 @@ void writeFS(void)
   int rootDirLBA = Inode[0].in_block[0];
   writeBlocks(Disk, rootDirLBA, RootDir, 1);
 
+  ///////////////////////////////////////////////////////
+  /* write bad blocks file */
+  //int rootDirLBA = Inode[0].in_block[0];
+  //writeBlocks(Disk, rootDirLBA + 1, ????, 1);
+  //////////////?? ChangesDONEHERE
   /* free at last, free at last */
   if (Verbose) {
     fprintf(stderr,"file system written.\n");
