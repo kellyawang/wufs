@@ -1,6 +1,6 @@
 /*
  * Public declarations for WUFS data structures
- * (c) the Great Class of 2015, especially <your name here>
+ * (c) the Great Class of 2015, especially <Kelly Wang and Juan Mena>
  *
  * General note:
  *   All WUFS on-disk struct field names have two letter (sb, in, de) prefixes.
@@ -15,7 +15,7 @@
  * <linux/magic.h> file.  You can get this information with a call to
  * statfs(2) with any file in the file system.
  */
-#define WUFS_MAGIC	0x0EEF  /* V0? idea: in v. 11, this becomes 0xBEEF */
+#define WUFS_MAGIC	0x0BFF  /* V0? idea: in v. 11, this becomes 0xBEEF */
 
 /*
  * the WUFS_BLOCKSIZE should be a multiple of the BLOCK_SIZE found in fs.h
@@ -48,7 +48,7 @@ struct wufs_super_block {
   __u16 sb_inodes;		/* count of inodes */
   __u16 sb_imap_bcnt;		/* the size (in blocks) of the imap */
   __u16 sb_bmap_bcnt;		/* the size (in blocks) of the bmap */
-  __u16 sb_max_fsize;		/* the maximum file size */
+  __u32 sb_max_fsize;		/* the maximum file size */
 };
 
 /*
@@ -72,7 +72,7 @@ struct wufs_inode {
   __u16 in_uid;			/* user id */
   __u16 in_gid;			/* group id */
   __u32 in_time;		/* file modification time */
-  __u16 in_size;		/* file size (bytes) */
+  __u32 in_size;		/* file size (bytes) */
   /* 14 bytes used so far...*/
   __u16 in_block[WUFS_INODE_BPTRS]; /* index of data blocks */
   /* block logically fills to WUFS_INODESIZE (see below) */
@@ -85,8 +85,8 @@ struct wufs_inode {
  *   - 14 character names will not be null terminated; you have been warned
  *   - the directory entry size should be a power of two
  */
-#define WUFS_NAMELEN 14
-#define WUFS_DIRENTSIZE	16
+#define WUFS_NAMELEN 30//14
+#define WUFS_DIRENTSIZE	32//16
 #define WUFS_DIRENTS_PER_BLOCK (WUFS_BLOCKSIZE/WUFS_DIRENTSIZE)
 
 struct wufs_dirent {
