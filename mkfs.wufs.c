@@ -481,7 +481,7 @@ void buildInodes(void)
 	  redirect[n-8] = bblock;
 	  
 	  //You need a way to keep track of the error file redirection block
-	  if((rootDir + 1) = allocBlock()){
+	  if((rootDir + 1) == allocBlock()){
 	    fprintf(stderr,"Internal error: backBlock Inode redirection block is not right after the rootDirectory. All Hell breaks loose.\n");
 	    exit(1);
 	  }
