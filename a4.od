@@ -1,0 +1,33 @@
+000000 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+000400 del  vt soh nul dc4 nul enq nul  sp nul soh nul soh nul nul   $
+          0bff    0001    0014    0005    0020    0001    0001    2400
+000410 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+000800 soh nul nul nul del del del del del del del del del del del del
+          0001    0000    ffff    ffff    ffff    ffff    ffff    ffff
+000810 del del del del del del del del del del del del del del del del
+          ffff    ffff    ffff    ffff    ffff    ffff    ffff    ffff
+*
+000c00   ? nul   p del del del del del del del del del del del del del
+          003f    fff0    ffff    ffff    ffff    ffff    ffff    ffff
+000c10 del del del del del del del del del del del del del del del del
+          ffff    ffff    ffff    ffff    ffff    ffff    ffff    ffff
+*
+001000   m   A stx nul   k etx   k etx   *  ht   0   U   @ nul enq nul
+          41ed    0002    03eb    03eb    092a    5530    0040    0005
+001010 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+001400 soh nul   . nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0001    002e    0000    0000    0000    0000    0000    0000
+001410 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+001420 soh nul   .   . nul nul nul nul nul nul nul nul nul nul nul nul
+          0001    2e2e    0000    0000    0000    0000    0000    0000
+001430 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+005000
