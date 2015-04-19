@@ -434,7 +434,7 @@ void buildInodes(void)
   if(bbc) {
 
     char badBlocksFile[WUFS_NAMELEN+1]; 
-    sprintf(badBlocksFile,".wowthosearereallybad"); //create a file whose name is more than 14 characters in length, writes a hidden file (by ".") to array called badBlocksFile
+    sprintf(badBlocksFile,".wowthosearesomebadblocks"); //create a file whose name is more than 14 characters in length, writes a hidden file (by ".") to array called badBlocksFile
     if (Verbose) {
       fprintf(stderr,"Placing the following bad blocks in /%s:\n", badBlocksFile);
     }
@@ -483,10 +483,8 @@ void buildInodes(void)
 	  bbino->in_block[n] = bbAddress; //store logical block address in last space in inode (this is so the file system can find where to store inode/file data
 	  Redirect = (__u16*)calloc(WUFS_BLOCKSIZE, 1); //allocate space in MEMORY
 	  Redirect[0] = bblock; //save the next bad block in the extension to the bad block file  
-
-	  if((rootDir + 1) == bbAddress){ // ???
-	    fprintf(stderr,"Internal error: backBlock Inode redirection block is not right after the rootDirectory!\n");
-	    exit(1);
+	  if (Verbose) {
+	    printf("\n//File size too small - adjust using indirection pointer//\n");
 	  }
 
 	  n++;
