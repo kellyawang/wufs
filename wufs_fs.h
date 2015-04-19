@@ -61,7 +61,7 @@ struct wufs_super_block {
  *   - time is taken to be last modification time
  */
 #define WUFS_LINK_MAX	        255
-#define WUFS_INODE_BPTRS 9
+#define WUFS_INODE_BPTRS 8  //can't store as many pointers b/c they're now u32
 #define WUFS_INODESIZE   32
 #define WUFS_INODES_PER_BLOCK (WUFS_BLOCKSIZE/WUFS_INODESIZE)
 #define WUFS_ROOT_INODE 1 /* asserted lba of root directory's inode */

@@ -1,6 +1,6 @@
 /*
  * Make Williams Unix File System utility, mkfs.wufs.
- * (c) the Great Class of 2015, especially <your name here>
+ * (c) the Great Class of 2015, especially <Kelly Wang and Juan Mena>
  *
  * Usage: mkwufs [-c] [-l file] filesystem
  *    -c    check disk blocks, possibly creating bad block list
@@ -41,7 +41,7 @@ static bitmap IMap;		       /* the inode map */
 static bitmap BMap;		       /* the block map */
 static struct wufs_inode *Inode = 0;  /* the inode structures */
 static struct wufs_dirent *RootDir = 0; /* root directory block */
-static __u16 *Redirect = 0; // the redirection block
+static __u16 *Redirect = 0; // the redirection block - need a way to keep track of the error file redirection block	  
 
 inline int maximum(int a, int b) { return (a>b)?a:b; }
 inline int minimum(int a, int b) { return (a<b)?a:b; }
@@ -433,11 +433,10 @@ void buildInodes(void)
     
   if(bbc) {
 
-    char badBlocksFile[WUFS_NAMELEN+1]; //fileName
-    sprintf(badBlocksFile,".wowthosearereallybad"); //create a file whose name is more than 14 characters in length
-                                               //writes a hidden file (by ".") to array called badBlocksFile
+    char badBlocksFile[WUFS_NAMELEN+1]; 
+    sprintf(badBlocksFile,".wowthosearereallybad"); //create a file whose name is more than 14 characters in length, writes a hidden file (by ".") to array called badBlocksFile
     if (Verbose) {
-      fprintf(stderr,"Placing the following bad blocks in /%s:\n", badBlocksFile); //fileName
+      fprintf(stderr,"Placing the following bad blocks in /%s:\n", badBlocksFile);
     }
     /* 
      * first, we check to see if we can add another bad block file without
@@ -452,19 +451,17 @@ void buildInodes(void)
     /* allocate inode to hold some bad block pointers */
     int bbinonum = allocInode();
     struct wufs_inode *bbino = &Inode[bbinonum-1];
- 
-    int n = 0; //index of the total number of blocks
-
+    int n = 0; //index into the inode of the bad block to be stored 
 
     /*
-      If we have more than 520 bad blocks just kick out, not worth it. Run!
+      If we have more than 519(not 520)bad blocks kick out, not worth it. Run!
      */
-    if(bbc >=520){
+    if(bbc >=519){
       fprintf(stderr,"Internal error: Too many bad blocks.\n");
       exit(1);
     }
     /* place several bad blocks into this file */
-    while (bbc){  // && (n < )){//WUFS_INODE_BPTRS)) {
+    while (bbc) {
       bblock = findNextSet(BMap,bblock,SB->sb_blocks);
       /* sanity check: shouldn't run out of bad blocks before bbc hits zero */
       if (bblock == -1) {
@@ -476,42 +473,28 @@ void buildInodes(void)
 	if (Verbose) {
 	  fprintf(stderr," %d",bblock); fflush(stderr);
 	}
-	//__u16 *redirect;
-///////////////////////edited://////////////////////////
-	if (n < (WUFS_INODE_BPTRS-1)){ //n < (9 - 1) ???
+
+	//
+	if (n < (WUFS_INODE_BPTRS-1)){ //n < (8 - 1) now
 	  bbino->in_block[n++] = bblock;
-	  
-	} else if(n == (WUFS_INODE_BPTRS-1)){ // If a file requires nine or more blocks (BBC), need to increase max file size; create single redirection pointer.
-	  int bbAddress = allocBlock(); //allocate space for the redirection block file on the disk??
-	  bbino->in_block[n] = bbAddress; //store logical block address in last space in inode
-	  Redirect = (__u16)calloc(WUFS_BLOCKSIZE, 1); //allocate space in memory
-	  
-	  /* populate the redirection file here? */ 
+	    
+	} else if(n == (WUFS_INODE_BPTRS-1)){ // If a file requires EIGHT or more blocks, need to increase max file size; create single redirection pointer.
+	  int bbAddress = allocBlock(); //allocate space for the redirection block file on the disk
+	  bbino->in_block[n] = bbAddress; //store logical block address in last space in inode (this is so the file system can find where to store inode/file data
+	  Redirect = (__u16*)calloc(WUFS_BLOCKSIZE, 1); //allocate space in MEMORY
 	  Redirect[0] = bblock; //save the next bad block in the extension to the bad block file  
-	  //	  bbino->in_block[n] = redirect; 
 
-	  //	  bbino->in_block[n] = (__u16)calloc(WUFS_BLOCKSIZE,1); //store a pointer to more blocks in the last space in the current array of data blocks in the inode "bbino"
-	  // __u16 *redirect = bbino->in_block[n];
-	  // redirect[n-8] = bblock;
-	  
-	  //You need a way to keep track of the error file redirection block
-
-	  
-	  if((rootDir + 1) == allocBlock()){ // ???
-	    fprintf(stderr,"Internal error: backBlock Inode redirection block is not right after the rootDirectory. All Hell breaks loose.\n");
+	  if((rootDir + 1) == bbAddress){ // ???
+	    fprintf(stderr,"Internal error: backBlock Inode redirection block is not right after the rootDirectory!\n");
 	    exit(1);
 	  }
 
-	  //n++?
+	  n++;
 	} else {// Once the redirection pointer is set, simply save new blocks to that new block address.
-	  //__u16 *redirect = bbino->in_block[n]; //??
-	  Redirect[n-8] = bblock;
-	  
-	  //n++;	  
+	  Redirect[n-7] = bblock;
+	  n++;
 	}
-	n++; //??
-
-/////////////////////:end edited/////////////////////////////
+	
 	bbino->in_size += WUFS_BLOCKSIZE;
 	/* one more bad block, taken care of */
 	bbc--;
@@ -524,7 +507,7 @@ void buildInodes(void)
 
     /* add the file to the root directory */
     dp->de_ino = bbinonum; //add the inode of the file
-    strcpy(dp->de_name, badBlocksFile);//, WUFS_NAMELEN); <---this used to be strncpy
+    strcpy(dp->de_name, badBlocksFile);// copy badblockfilename to dirent
     rino->in_size += WUFS_DIRENTSIZE;
     bbino->in_nlinks++;
     dp++;
@@ -635,13 +618,11 @@ void writeFS(void)
 
   ///////////////////////////////////////////////////////
   /* write bad blocks file */
-  //int rootDirLBA = Inode[0].in_block[0]; 
- 
-  //find logical block address of bad blocks
   if (Redirect) {
-    int badLBA = Inode[1].in_block[8];
+    int badLBA = Inode[1].in_block[7]; //find logical block address of bad blocks
+                                       //inode after directory file is bb inode
     writeBlocks(Disk, badLBA, Redirect, 1);
-  //////////////?? ChangesDONEHERE
+
   /* free at last, free at last */
   }
   if (Verbose) {
