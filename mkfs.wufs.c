@@ -235,7 +235,7 @@ void buildSuperBlock(void)
   /*
     Set this to 520 * block size because now Inodes have 520 pointeres to blocks. where as before they had 9. Now this would be better if we changed 520 from an integer to a constant value we intiate somewhere else.
    */
-  SB->sb_max_fsize = 520*WUFS_BLOCKSIZE;//WUFS_INODE_BPTRS * WUFS_BLOCKSIZE;//520 * Blocksize??
+  SB->sb_max_fsize = 519*WUFS_BLOCKSIZE;//WUFS_INODE_BPTRS * WUFS_BLOCKSIZE;//520 * Blocksize??
 
 
   /* set the state appropriately */
@@ -456,7 +456,7 @@ void buildInodes(void)
     /*
       If we have more than 519(not 520)bad blocks kick out, not worth it. Run!
      */
-    if(bbc >=519){
+    if(bbc > 519){
       fprintf(stderr,"Internal error: Too many bad blocks.\n");
       exit(1);
     }
@@ -489,7 +489,7 @@ void buildInodes(void)
 
 	  n++;
 	} else {// Once the redirection pointer is set, simply save new blocks to that new block address.
-	  Redirect[n-7] = bblock;
+	  Redirect[n - (WUFS_INODE_BPTRS-1)] = bblock; //parens included to make it clearer what's happening here
 	  n++;
 	}
 	
@@ -505,7 +505,7 @@ void buildInodes(void)
 
     /* add the file to the root directory */
     dp->de_ino = bbinonum; //add the inode of the file
-    strcpy(dp->de_name, badBlocksFile);// copy badblockfilename to dirent
+    strncpy(dp->de_name, badBlocksFile, WUFS_NAMELEN);// copy badblockfilename to dirent
     rino->in_size += WUFS_DIRENTSIZE;
     bbino->in_nlinks++;
     dp++;
