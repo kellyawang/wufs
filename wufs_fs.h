@@ -15,7 +15,7 @@
  * <linux/magic.h> file.  You can get this information with a call to
  * statfs(2) with any file in the file system.
  */
-#define WUFS_MAGIC	0x0BFF  /* V0? idea: in v. 11, this becomes 0xBEEF */
+#define WUFS_MAGIC	0x7EEF//for use in next lab. 0x0BFF  /* V0? idea: in v. 11, this becomes 0xBEEF */
 
 /*
  * the WUFS_BLOCKSIZE should be a multiple of the BLOCK_SIZE found in fs.h
