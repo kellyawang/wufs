@@ -1,0 +1,38 @@
+000000 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+000400   o   ~ soh nul dc4 nul enq nul  sp nul soh nul soh nul nul nul
+          7eef    0001    0014    0005    0020    0001    0001    0000
+000410 nul  fs  bs nul nul nul nul nul nul nul nul nul nul nul nul nul
+          1c00    0008    0000    0000    0000    0000    0000    0000
+000420 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+000800 soh nul nul nul del del del del del del del del del del del del
+          0001    0000    ffff    ffff    ffff    ffff    ffff    ffff
+000810 del del del del del del del del del del del del del del del del
+          ffff    ffff    ffff    ffff    ffff    ffff    ffff    ffff
+*
+000c00   ? nul   p del del del del del del del del del del del del del
+          003f    fff0    ffff    ffff    ffff    ffff    ffff    ffff
+000c10 del del del del del del del del del del del del del del del del
+          ffff    ffff    ffff    ffff    ffff    ffff    ffff    ffff
+*
+001000   m   A stx nul   j etx   j etx sub   !   B   U nul nul nul nul
+          41ed    0002    03ea    03ea    a11a    5542    0080    0000
+001010 enq nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0005    0000    0000    0000    0000    0000    0000    0000
+001020 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+001400 soh nul   . nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0001    002e    0000    0000    0000    0000    0000    0000
+001410 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+001440 soh nul   .   . nul nul nul nul nul nul nul nul nul nul nul nul
+          0001    2e2e    0000    0000    0000    0000    0000    0000
+001450 nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul
+          0000    0000    0000    0000    0000    0000    0000    0000
+*
+005000
