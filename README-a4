@@ -1,4 +1,6 @@
 (c) 2015 Kelly Wang and Juan Mena
+CS432 Operating Systems
+Lab 4
 
 Our file system now has support for filenames that are up to 62 bytes long. Directory entry structure is a total of 64 bytes, leaving room for 2 byte inode numbers, we have 62 bytes left over for the filenames. We tested this capability by creating a "bad block file" with a longer file name (longer than 14 characters to be precise). We did this by making sure WUFS_NAMELEN and WUFS_DIRENTSIZE were increased respectively. 
 
